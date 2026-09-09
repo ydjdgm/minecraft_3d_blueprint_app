@@ -18,7 +18,7 @@ npm run dev
 - 높이별 누적 보기와 단일 층 보기
 - 서버에 저장한 설계도 사본을 링크로 공유·미리보기·보관함에 추가
 - 다크·라이트 모드, 반응형 편집 화면
-- OpenAI 모델을 이용한 자연어 생성·수정과 적용 전 변경 제안
+- OpenAI·Anthropic Claude·Google Gemini를 이용한 자연어 생성·수정과 적용 전 변경 제안
 
 ## 편집·건축 도구
 
@@ -34,11 +34,13 @@ npm run dev
 
 ## AI 설정과 하네스
 
-앱의 **AI 설계 → API 키 연결하기**에서 자신의 OpenAI API 키와 구조화 출력을 지원하는 모델 ID를 입력합니다. 키는 탭 메모리에만 보관합니다. 설계 요청 시 같은 출처의 서버를 거쳐 OpenAI Responses API로 전송하며 로그나 저장소에 기록하지 않습니다. API 이용 요금은 해당 키의 계정에 부과됩니다. 서버 공용 키는 필요하지 않습니다.
+앱의 **AI 설계 → API 키 연결하기**에서 제공업체를 선택하고, 해당 업체의 API 키와 구조화 출력을 지원하는 모델 ID를 입력합니다. OpenAI, Anthropic Claude, Google Gemini를 지원하며 모델 ID는 직접 수정할 수 있습니다. 설정 완료는 입력값 보관이며, 실제 인증은 설계 요청 시 확인합니다.
+
+키와 모델 설정은 제공업체별로 탭 메모리에만 보관하며 새로고침하면 초기화됩니다. 업체를 바꾸면 그 업체에 입력했던 설정으로 전환됩니다. **이 제공업체의 키 지우기**로 선택한 키를 제거할 수 있습니다. 요청 시 선택한 업체의 키와 설계도만 같은 출처의 앱 서버를 거쳐 해당 업체로 전송합니다. 키를 로그나 저장소에 기록하지 않으며, API 이용 요금은 해당 키의 계정에 부과됩니다. 서버 공용 키는 필요하지 않습니다. 임의 API 주소, Azure OpenAI, Bedrock, Vertex AI 등 별도 게이트웨이는 현재 지원하지 않습니다.
 
 하네스는 현재 블록 문맥, 허용 블록 목록, 좌표 체계와 명령 스키마를 모델에 전달합니다. `set`, `remove`, `fill`만 허용하고 좌표·방향·연산량·최종 크기를 서버와 클라이언트에서 검증합니다. 검증 실패 시 최대 한 번 수정 요청 후 실패를 표시하며, 변경은 전부 적용하거나 전혀 적용하지 않습니다. 생성 중 설계도가 바뀌면 오래된 제안을 버립니다. 사용자가 적용한 결과도 실행 취소할 수 있습니다.
 
-API 참고: [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+API별 지원 범위와 확장 방법은 [AI 연결 문서](docs/ai-providers.md)를 참고하세요.
 
 ## 현재 범위
 
@@ -51,6 +53,7 @@ Java Edition 26.2의 전체 등록 아이템 1,537종과 설치 가능한 1,094�
 ```sh
 cd studio
 node scripts/check-core.mjs
+node scripts/check-ai.mjs
 node scripts/check-materials.mjs
 node scripts/check-editor.mjs
 node scripts/check-sharing.mjs
